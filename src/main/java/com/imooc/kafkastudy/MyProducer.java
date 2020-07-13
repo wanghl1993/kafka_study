@@ -19,6 +19,9 @@ public class MyProducer {
                 "org.apache.kafka.common.serialization.StringSerializer");
         properties.put("value.serializer",
                 "org.apache.kafka.common.serialization.StringSerializer");
+
+        properties.put("partitioner.class",
+                "com.imooc.kafkastudy.CustomPartitioner");
         producer = new KafkaProducer<String, String>(properties);
     }
 
@@ -49,10 +52,25 @@ public class MyProducer {
     private static void sendMessageCallback() {
 
         ProducerRecord<String, String> record = new ProducerRecord<>(
-                "imooc-kafka-study", "name", "callback"
+                "imooc-kafka-study-x", "name", "callback"
         );
-
         producer.send(record, new MyProducerCallback());
+
+        record = new ProducerRecord<>(
+                "imooc-kafka-study-x", "name-x", "callback"
+        );
+        producer.send(record, new MyProducerCallback());
+
+        record = new ProducerRecord<>(
+                "imooc-kafka-study-x", "name-y", "callback"
+        );
+        producer.send(record, new MyProducerCallback());
+
+        record = new ProducerRecord<>(
+                "imooc-kafka-study-x", "name-z", "callback"
+        );
+        producer.send(record, new MyProducerCallback());
+
         producer.close();
     }
 
